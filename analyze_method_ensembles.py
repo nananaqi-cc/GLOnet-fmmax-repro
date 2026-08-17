@@ -239,34 +239,49 @@ def direct_candidate_records(patterns: np.ndarray, efficiencies: np.ndarray,
 
 
 def write_report(summary: dict, output: Path) -> None:
+    def fmt(value) -> str:
+        if value is None:
+            return "not applicable"
+        if isinstance(value, (float, np.floating)):
+            return f"{value:.6f}"
+        return str(value)
+
     glonet_audit = summary["protocol"]["glonet_checkpoint_audit_available"]
     direct_history = summary["protocol"]["direct_candidate_history_available"]
     glonet_checkpoint_line = (
-        "- GLOnet检查点值：每个种子使用同一固定噪声库重采样保存模型；seed 1仅有最终模型。"
+        "- GLOnet checkpoint values resample each saved model with one fixed "
+        "noise bank per seed; seed 1 has only its final model."
         if glonet_audit else
-        "- GLOnet检查点值：来自每50步、100候选训练日志的总体均值；尚未重采样保存模型，不能计算该检查点的逐候选Pareto或结构统计。"
+        "- GLOnet checkpoint values are 100-candidate ensemble means logged every "
+        "50 steps. Saved models were not resampled, so candidate-level Pareto and "
+        "structure statistics are unavailable at those checkpoints."
     )
     direct_final_line = (
-        "- 直接最终值：第300次Adam更新后的500个二值结构。"
+        "- Direct final values contain 500 binary structures after 300 Adam updates."
         if direct_history else
-        "- 直接最终值：旧文件只保存第300步总体均值0.63898，没有保存500个最终结构。"
+        "- The legacy direct output retains only the step-300 ensemble mean "
+        "(0.63898), not the 500 final structures."
     )
     lines = [
-        "# GLOnet与直接优化统一候选分析",
+        "# Unified GLOnet and direct-optimization candidate analysis",
         "",
-        "> 自动生成的中文数据报告。所有效率均为固定1039.23 nm周期、透射+1级、nn=40。",
+        "> Automatically generated data report. All efficiencies use the fixed "
+        "1039.23 nm period, transmitted +1 order, and nn=40.",
         "",
-        "## 口径",
+        "## Reporting conventions",
         "",
-        "- GLOnet生产最终值：原生产输出的500个候选。",
+        "- GLOnet production-final values are the 500 candidates in each original "
+        "production output.",
         glonet_checkpoint_line,
         direct_final_line,
-        "- 直接全局最佳检查点：500条轨迹的总体均值最高的单一检查点。",
-        "- 直接逐轨迹最佳：每条轨迹分别从13个检查点选择最佳平均目标。",
+        "- The direct aggregate-best checkpoint is the single logged checkpoint "
+        "with the highest mean over all 500 trajectories.",
+        "- Direct per-trajectory-best values select the highest mean objective "
+        "separately from 13 checkpoints along each trajectory.",
         "",
-        "## 集合统计",
+        "## Ensemble statistics",
         "",
-        "| 集合 | N | 平均目标 | 最大目标 | 平均瓶颈 | Pareto数 | 唯一结构 | Hamming均值 | 0.7三波长通过率 | 0.8三波长通过率 | 0.05网格占用 | 最小特征≥40 nm |",
+        "| Ensemble | N | Mean objective | Maximum objective | Mean bottleneck | Pareto count | Unique structures | Mean Hamming | All-three >=0.7 | All-three >=0.8 | Occupied 0.05 cells | Minimum feature >=40 nm |",
         "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for record in summary["ensembles"]:
@@ -281,44 +296,55 @@ def write_report(summary: dict, output: Path) -> None:
             f"{record['objective_coverage']['occupied_cells']} | "
             f"{record['feature_coverage']['thresholds_nm']['40']['fraction']:.3f} |"
         )
-    lines += ["", "## 迭代与检查点比较", ""]
+    lines += ["", "## Iteration and checkpoint comparison", ""]
     for row in summary["iteration_comparison"]:
         lines.append(
-            f"- **{row['method']}**：最终均值 {row.get('final_mean')}；"
-            f"全局最佳检查点 {row.get('best_checkpoint_step')} / "
-            f"{row.get('best_checkpoint_mean')}；逐轨迹最佳均值 "
-            f"{row.get('per_trajectory_best_mean')}；最佳候选 "
-            f"{row.get('best_candidate_mean')}。"
+            f"- **{row['method']}**: final mean {fmt(row.get('final_mean'))}; "
+            f"aggregate-best checkpoint {fmt(row.get('best_checkpoint_step'))} / "
+            f"{fmt(row.get('best_checkpoint_mean'))}; per-trajectory-best mean "
+            f"{fmt(row.get('per_trajectory_best_mean'))}; best candidate "
+            f"{fmt(row.get('best_candidate_mean'))}."
         )
-    lines += ["", "## 直接优化代表候选", ""]
+    lines += ["", "## Selected direct-optimization candidates", ""]
     for row in summary["selected_direct_candidates"]:
         dilation = row["tolerance"]["si_dilation_1px"]
         erosion = row["tolerance"]["si_erosion_1px"]
         lines.append(
-            f"- `{row['label']}`：效率 {np.round(row['efficiencies'], 4).tolist()}，"
-            f"均值 {row['mean_efficiency']:.4f}，瓶颈 {row['bottleneck_efficiency']:.4f}，"
-            f"最小特征 {row['min_feature_nm']:.2f} nm，"
-            f"名义最大深宽比 {row['max_aspect_ratio_325nm']:.2f}；"
-            f"一像素膨胀后瓶颈 {dilation['bottleneck']:.4f}，"
-            f"一像素侵蚀后瓶颈 {erosion['bottleneck']:.4f}。"
+            f"- `{row['label']}`: efficiencies "
+            f"{np.round(row['efficiencies'], 4).tolist()}, mean "
+            f"{row['mean_efficiency']:.4f}, bottleneck "
+            f"{row['bottleneck_efficiency']:.4f}, minimum feature "
+            f"{row['min_feature_nm']:.2f} nm, nominal maximum aspect ratio "
+            f"{row['max_aspect_ratio_325nm']:.2f}; one-pixel dilation bottleneck "
+            f"{dilation['bottleneck']:.4f}, one-pixel erosion bottleneck "
+            f"{erosion['bottleneck']:.4f}."
         )
     lines += [
         "",
-        "## 解释限制",
+        "## Interpretation limits",
         "",
         (
-            "- GLOnet检查点使用固定噪声库，数值不应与训练后随机状态生成的生产分布混为同一Monte Carlo样本。"
+            "- GLOnet checkpoint resampling uses a fixed noise bank and is not the "
+            "same Monte Carlo sample as the post-training production distribution."
             if glonet_audit else
-            "- GLOnet最佳日志检查点只提供100候选总体均值；其抽样与500候选生产最终分布不同。"
+            "- The best logged GLOnet checkpoint provides only a 100-candidate "
+            "ensemble mean; its sample differs from the 500-candidate production "
+            "distribution."
         ),
-        "- seed 1缺少中间模型，因此不能恢复其可复现最佳中间检查点候选。",
+        "- Seed 1 has no intermediate saved model, so its best intermediate "
+        "checkpoint candidates cannot be recovered reproducibly.",
         (
-            "- 直接最终和全局检查点有逐候选结构，可计算完整集合统计。"
+            "- Direct final and aggregate-checkpoint structures are available for "
+            "complete candidate-level ensemble statistics."
             if direct_history else
-            "- 直接最终和全局单一检查点缺少逐候选结构；当前Pareto、Hamming和制造性只针对逐轨迹最佳保留集合。"
+            "- Candidate structures are unavailable at the direct final and single "
+            "aggregate checkpoint. Pareto, Hamming, and manufacturability statistics "
+            "therefore use only the retained per-trajectory-best set."
         ),
-        "- pooled GLOnet包含五倍候选和训练成本，只用于描述总体覆盖，不用于匹配预算优越性声明。",
-        "- 形态扰动是周期一维均匀侵蚀/膨胀模型，不代表完整EBL/RIE工艺仿真。",
+        "- Pooled GLOnet contains five times the candidates and training cost; it "
+        "describes aggregate coverage but does not support matched-budget claims.",
+        "- Morphological perturbations are periodic one-dimensional uniform erosion "
+        "or dilation tests, not full EBL/RIE process simulations.",
     ]
     output.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
@@ -543,7 +569,7 @@ def main() -> None:
                 row["feature_coverage"]["thresholds_nm"]["40"]["fraction"],
                 row["feature_coverage"]["thresholds_nm"]["50"]["fraction"],
             ])
-    write_report(summary, args.output_dir / "report_cn.md")
+    write_report(summary, args.output_dir / "report.md")
     print(json.dumps({
         "direct_candidate_history_available": direct_candidate_history_available,
         "direct_checkpoint_summary": direct_checkpoint_summary,

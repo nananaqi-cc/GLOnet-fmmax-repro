@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this software or data package, please cite the archived release."
+title: "GLOnet-FMMAX fixed-period reproducibility package"
+type: software
+authors:
+  - family-names: Zhang
+    given-names: Chenxu
+  - family-names: Li
+    given-names: Qiang
+repository-code: "https://github.com/nananaqi-cc/GLOnet-fmmax-repro"
+license: MIT
+keywords:
+  - GLOnet
+  - FMMAX
+  - inverse design
+  - metagrating
+  - automatic differentiation
+  - rigorous coupled-wave analysis

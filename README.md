@@ -51,6 +51,8 @@ python analyze_method_ensembles.py
 
 The included data are under `results/revision_fixed/`. See
 `results/README.md` for the scope and checkpoint conventions.
+`REPRODUCIBILITY.md` maps each retained dataset to the corresponding analysis
+command and expected numerical checks.
 
 ## Rerun the numerical protocol
 
@@ -77,3 +79,9 @@ separately.
 ## License
 
 See `LICENSE`.
+
+## Citation
+
+Citation metadata for this software and data package are provided in
+`CITATION.cff`. A versioned archival DOI will be added when the public release
+is deposited; no DOI has been assigned to this private pre-release snapshot.
