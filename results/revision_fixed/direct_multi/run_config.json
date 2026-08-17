@@ -1,0 +1,21 @@
+{
+  "wavelengths": [
+    700.0,
+    800.0,
+    900.0
+  ],
+  "period_nm": 1039.2304845413264,
+  "fourier_nn": 40,
+  "n_seeds": 500,
+  "n_iter": 300,
+  "batch_size": 25,
+  "learning_rate": 0.01,
+  "output_dir": "results/revision_fixed/direct_multi",
+  "output_angles_deg": [
+    42.34361264736432,
+    50.33596464288108,
+    59.99999999999999
+  ],
+  "wavelength_solver_evaluations": 450000,
+  "baseline_type": "Adam-based direct pixel optimization"
+}

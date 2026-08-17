@@ -1,0 +1,51 @@
+[
+  {
+    "nn": 10,
+    "transmission": 0.5066594154103193,
+    "reflection": 0.49334058458968105,
+    "T_plus_R": 1.0000000000000004,
+    "directional_spurious_flux": 2.1016155871499317e-17
+  },
+  {
+    "nn": 14,
+    "transmission": 0.5312267230578773,
+    "reflection": 0.46877327694212023,
+    "T_plus_R": 0.9999999999999976,
+    "directional_spurious_flux": 1.2106510748327832e-17
+  },
+  {
+    "nn": 20,
+    "transmission": 0.5431741201991103,
+    "reflection": 0.4568258798009,
+    "T_plus_R": 1.0000000000000102,
+    "directional_spurious_flux": 1.1523718808811458e-17
+  },
+  {
+    "nn": 30,
+    "transmission": 0.5475903105765929,
+    "reflection": 0.4524096894234496,
+    "T_plus_R": 1.0000000000000426,
+    "directional_spurious_flux": 1.9528377057519715e-17
+  },
+  {
+    "nn": 40,
+    "transmission": 0.5493389851949413,
+    "reflection": 0.45066101480514226,
+    "T_plus_R": 1.0000000000000835,
+    "directional_spurious_flux": 1.891239592815123e-17
+  },
+  {
+    "nn": 60,
+    "transmission": 0.5499381687057536,
+    "reflection": 0.45006183129428584,
+    "T_plus_R": 1.0000000000000395,
+    "directional_spurious_flux": 2.2813383764399512e-17
+  },
+  {
+    "nn": 80,
+    "transmission": 0.5500456686142458,
+    "reflection": 0.4499536234254869,
+    "T_plus_R": 0.9999992920397327,
+    "directional_spurious_flux": 1.2903615878617857e-17
+  }
+]

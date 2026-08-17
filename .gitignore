@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.venv/
+.uv-cache/
+.mplconfig*/
+*.pth.tar
+results/revision_fixed/*/figures/
+results/revision_fixed/*/model/
+results/revision_fixed/*/logs/
+results/revision_fixed/production_run*
+results/revision_fixed/production_summary/*.png
+tmp/
+.DS_Store
+Thumbs.db

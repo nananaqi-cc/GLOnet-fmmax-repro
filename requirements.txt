@@ -1,0 +1,9 @@
+fmmax==1.7.1
+jax[cuda12]==0.6.2
+numpy==2.2.6
+scipy==1.15.2
+matplotlib==3.10.8
+tqdm==4.67.3
+optax==0.2.8
+torch==2.8.0
+torchvision==0.23.0
