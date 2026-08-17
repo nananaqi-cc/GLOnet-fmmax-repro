@@ -2,6 +2,7 @@ cff-version: 1.2.0
 message: "If you use this software or data package, please cite the archived release."
 title: "GLOnet-FMMAX fixed-period reproducibility package"
 type: software
+version: 1.0.0
 authors:
   - family-names: Zhang
     given-names: Chenxu

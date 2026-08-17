@@ -9,6 +9,11 @@ of 1039.2304845 nm. The target is the transmitted +1 diffraction order at
 This repository intentionally contains no manuscript source, reviewer
 correspondence, submission forms, or draft PDFs.
 
+The target archival release is version `1.0.0`. Its repository tag will be
+`v1.0.0`, and the deposited source archive will be named
+`GLOnet-fmmax-repro-v1.0.0.zip`. Later changes will use a new semantic version
+rather than replacing this archive.
+
 ## Included material
 
 - GLOnet single- and multi-wavelength training code.
@@ -85,3 +90,5 @@ See `LICENSE`.
 Citation metadata for this software and data package are provided in
 `CITATION.cff`. A versioned archival DOI will be added when the public release
 is deposited; no DOI has been assigned to this private pre-release snapshot.
+The original GLOnet MIT notice is retained, with a separate 2026 copyright
+notice for the present modifications.
