@@ -3,6 +3,7 @@ message: "If you use this software or data package, please cite the archived rel
 title: "GLOnet-FMMAX fixed-period reproducibility package"
 type: software
 version: 1.0.0
+doi: 10.5281/zenodo.21973394
 authors:
   - family-names: Zhang
     given-names: Chenxu

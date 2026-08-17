@@ -88,7 +88,9 @@ See `LICENSE`.
 ## Citation
 
 Citation metadata for this software and data package are provided in
-`CITATION.cff`. A versioned archival DOI will be added when the public release
-is deposited; no DOI has been assigned to this private pre-release snapshot.
+`CITATION.cff`. Zenodo DOI `10.5281/zenodo.21973394` has been reserved for the
+version `1.0.0` archival release and will be registered when that record is
+published. The Zenodo record and this GitHub repository remain private during
+pre-release review.
 The original GLOnet MIT notice is retained, with a separate 2026 copyright
 notice for the present modifications.
